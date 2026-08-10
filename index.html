@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <h1>User Management</h1>
+    </header>
+    
+    
+
+    <div class="form1">
+        
+        <h3 id="welcome">Welcome </h3>
+
+        <button class="openBtn" id="openBtn" type="button">Add User</button>
+
+        <dialog id="myDialog" class="myDialog">
+            <form id="addform">
+                <div class="addform">
+                    <div class="formrow">
+                        <label for="firstname">First name</label><span class="req">*</span>
+                        <input id="firstname" type="text" required>
+                    </div>
+                    <div class="formrow">
+                        <label for="lastname">Last name (optional)</label>
+                        <input id="lastname" type="text">
+                    </div>
+
+                    <div class="formrow">
+                        <label for="gender">Gender</label><span class="req">*</span>
+
+                        <select id="gender" required>
+                            <option value="">Select gender</option>
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Alien">Alien</option>
+                        </select>
+                    </div>
+                    <div class="formrow">
+                        <label for="email">Email</label><span class="req">*</span>
+                        <input id="email" type="text" required>
+                    </div>
+                    <div class="formrow">
+                        <label for="phonenumber">Phone Number</label><span class="req">*</span>
+                        <input id="phonenumber" type="tel" required>
+                    </div>
+                    <div class="formrow">
+                        <label for="dob">Date Of Birth</label><span class="req">*</span>
+                        <input id="dob" type="date" required>
+                    </div>
+
+                    <p id="errormsg" class="errormsg"></p>
+
+                    <div class="btns2">
+                        <button type="submit" id="savebtn" class="save">Save</button>
+                        <button type="button" id="closeBtn" class="closeBtn">Close</button>
+                    </div>
+                </div>
+            </form>
+        </dialog>
+    </div>
+
+        <input type="text" class="search" id="search" placeholder="search...">
+        
+
+    <select class="agefilter" id="agefilter">
+    <option value="all">All ages</option>
+    <option value="kid">Kid</option>
+    <option value="teen">Teen</option>
+    <option value="adult">Adult</option>
+    <option value="almost-dead">Almost Dead</option>
+</select>
+
+        <select id="genderFilter">
+            <option value="all">All genders</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            
+        </select>
+
+        <table class="table" border="5px">
+            <thead>
+                <tr>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Email</th>
+                    <th>Phone number</th>
+                    <th>Date of birth</th>
+                    <th>Age</th>
+                    <th>Action</th>
+                    
+                </tr>
+            </thead>
+            <tbody class="tbody" id="tbody"></tbody>
+        </table>
+
+        
+        
+
+        
+    <script src="script.js" defer></script>
+</body>
+
+</html>
