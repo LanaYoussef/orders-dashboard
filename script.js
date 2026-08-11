@@ -1,46 +1,49 @@
 
 
 
-function getusers() {
+function getUsers() {
   return JSON.parse(localStorage.getItem('usersList')) || [];
 }
 
+function getHeartBeat(){
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET','/api/heartbeat.php');
+  xhr.onload = function(){ 
+    if(xhr.status === 200){
+            const data = JSON.parse(xhr.responseText);
+            document.getElementById('heartBeat').textContent = data.is_alive? 'alive' : 'dead';
+    }
+  };
+  xhr.send();
+}
 
-function getme() {
-    console.log("getme is running");
 
+function getMe() {
     const xhr = new XMLHttpRequest();
-
     xhr.open('GET', '/api/me.php');
-  
     xhr.onload = function () {
-        console.log("Status:", xhr.status);
-        console.log("Response:", xhr.responseText);
-
         if (xhr.status === 200) {
             const user = JSON.parse(xhr.responseText);
-
-            document.getElementById('welcome').textContent =
-                `Welcome ${user.first_name}`;
+            document.getElementById('welcome').textContent = `Welcome ${user.first_name}`;
         }
     };
-
     xhr.send();
 }
 
 function calculateAge(dob) {
   const today = new Date();
   const birth = new Date(dob);
+
   let age = today.getFullYear() - birth.getFullYear();
   return age;
 }
 
 function renderTable() {
 
-  const tablebody = document.getElementById('tbody');
-  const users = getusers();
+  const tableBody = document.getElementById('tbody');
+  const users = getUsers();
   const search=document.getElementById('search').value.toLowerCase();
-  const agefilter = document.getElementById('agefilter').value;
+  const ageFilter = document.getElementById('ageFilter').value;
   const genderFilter = document.getElementById('genderFilter').value;
 
   
@@ -53,28 +56,28 @@ function renderTable() {
     
 
 });
-if(agefilter==='kid'){
-      filteredUsers=filteredUsers.filter((user)=>user.age>=6&& user.age<=12);
+if(ageFilter === 'kid'){
+      filteredUsers = filteredUsers.filter((user)=> user.age>=6 && user.age <=12);
     }
-    if(agefilter=='teen'){
-      filteredUsers=filteredUsers.filter((user)=>user.age>=13 && user.age<=17);
+    if(ageFilter == 'teen'){
+      filteredUsers = filteredUsers.filter((user)=> user.age >= 13 && user.age <=17);
 
     }
-    if (agefilter === 'adult') {
+    if (ageFilter === 'adult') {
     filteredUsers = filteredUsers.filter((user) => user.age >= 18 && user.age <= 59);
 }
-    if (agefilter === 'almost-dead') {
+    if (ageFilter  === 'almost-dead') {
     filteredUsers = filteredUsers.filter((user) => user.age >= 60);
 }
 
-    if(genderFilter!=='all'){
-      filteredUsers=filteredUsers.filter((user)=>{
+    if(genderFilter !== 'all'){
+      filteredUsers = filteredUsers.filter((user)=>{
         return user.gender === genderFilter;
       })
     }
 
   
-  tablebody.innerHTML = filteredUsers
+  tableBody.innerHTML = filteredUsers
     .map(
       (user) => `<tr userid= "${user.id}">
         <td>${user.firstname}</td>
@@ -83,26 +86,26 @@ if(agefilter==='kid'){
         <td>${user.phonenumber}</td>
         <td>${user.dob}</td>
         <td>${user.age}</td>
-        
-        
+
         <td><div class="btns"><button class="dltbtn" onclick="deleteById(${user.id})"> Delete </button>
-        <button class="editbtn" onclick="editById(${user.id})"> Edit </button></div></td>
-      </tr>`
+        <button class="editbtn" onclick="editById(${user.id})" > Edit </button></div></td>
+
+        </tr>`
     )
     .join('');
 }
 
 function deleteById(id){
   if(!confirm("are you sure you wanna delete this user?"))return;
-  const users=getusers();
-  const updateusers=users.filter((user)=>user.id!=id);
+  const users = getUsers();
+  const updateusers = users.filter((user)=> user.id != id);
   localStorage.setItem('usersList',JSON.stringify(updateusers));
   renderTable();
 }
 let currentId=null;
 
 function editById(id){
-    const users=getusers();
+    const users=getUsers();
     const user = users.find(u => u.id ==id);
     if(!user) return;
 
@@ -125,12 +128,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const closeBtn = document.getElementById('closeBtn');
   const form = document.getElementById('addform');
   const errormsg = document.getElementById('errormsg');
-  const search=document.getElementById('search')
-  search.addEventListener('input',()=>{
+  const search = document.getElementById('search');
+
+  search.addEventListener('input', () => {
     renderTable();
-  })
-  const agefilter = document.getElementById('agefilter');
-  agefilter.addEventListener('change', () => {
+  });
+  
+  const ageFilter = document.getElementById('ageFilter');
+  ageFilter.addEventListener('change', () => {
     renderTable();
 });
 
@@ -139,10 +144,13 @@ const genderFilter = document.getElementById('genderFilter');
 genderFilter.addEventListener('change', () => {
     renderTable();
 });
-  getme();
-  renderTable();
 
+    getMe();
 
+    getHeartBeat();
+    setInterval(getHeartBeat, 5000);
+    renderTable();
+    
   openBtn.addEventListener('click', () => {
     currentId=null;
     form.reset();
@@ -164,14 +172,14 @@ genderFilter.addEventListener('change', () => {
     const email = document.getElementById('email').value.trim();
     const phonenumber = document.getElementById('phonenumber').value.trim();
     const dob = document.getElementById('dob').value;
-
-    const gender=document.getElementById('gender').value;
+    const gender = document.getElementById('gender').value;
+    const phone = /^\d{8}$/;
 
     const today = new Date();
     const birth = new Date(dob);
     const age = calculateAge(dob);
-    const phone = /^\d{8}$/;
-    const users = getusers();
+
+    const users = getUsers();
 
     if (!email.includes('@') || !email.includes('.')) {
       errormsg.textContent = 'Please enter a valid email';
@@ -187,7 +195,7 @@ genderFilter.addEventListener('change', () => {
       errormsg.textContent = 'Not a valid age';
       return;
     }
-    if(currentId===null){
+    if(currentId === null){
         if (users.some((user) => user.email.toLowerCase() === email.toLowerCase())) {
           errormsg.textContent = 'Email already exists';
           return;
@@ -201,11 +209,9 @@ genderFilter.addEventListener('change', () => {
 
     errormsg.textContent = '';
 
-    
+    if(currentId !== null){
 
-    if(currentId!==null){
-
-      const updatedusers = users.map((user)=> user.id ==currentId?{id: currentId,firstname,lastname,email,phonenumber,dob,age,gender}:user);
+      const updatedusers = users.map((user)=> user.id == currentId?{id: currentId,firstname,lastname,email,phonenumber,dob,age,gender}:user);
 
       localStorage.setItem('usersList', JSON.stringify(updatedusers));
 
@@ -216,17 +222,16 @@ genderFilter.addEventListener('change', () => {
       renderTable();
       alert('User updated');
 
-
     }else{
+
     let currenteditid=Number(localStorage.getItem('nextuserid')) || 0;
     const id= currenteditid++;
-  
-
     users.push({ id, firstname, lastname, email, phonenumber, dob, age, gender});
+
     localStorage.setItem('usersList', JSON.stringify(users));
+    localStorage.setItem('nextuserid',currenteditid);
 
-    localStorage.setItem('nextuserid',currenteditid)
-
+    getMe();
     form.reset();
     dialog.close();
     renderTable();

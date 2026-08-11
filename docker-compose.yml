@@ -1,8 +1,9 @@
 services:
   php:
-    image: php:8.4-fpm
+    image:php:8.4-fpm
     volumes:
       - .:/var/www/html
+
 
   caddy:
     image: caddy:latest
@@ -10,4 +11,4 @@ services:
       - .:/var/www/html
       - ./Caddyfile:/etc/caddy/Caddyfile
     ports:
-      - "8080:80"  
+      - "8080:80"
