@@ -4,7 +4,6 @@ services:
     volumes:
       - .:/var/www/html
 
-
   caddy:
     image: caddy:latest
     volumes:
