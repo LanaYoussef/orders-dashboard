@@ -45,8 +45,8 @@ function renderTable() {
 
   let filteredUsers = users.filter((user) => {
     return (
-      user.firstname.toLowerCase().includes(search) ||
-      user.lastname.toLowerCase().includes(search) ||
+      user.firstName.toLowerCase().includes(search) ||
+      user.lastName.toLowerCase().includes(search) ||
       user.email.toLowerCase().includes(search)
     );
   });
@@ -78,10 +78,10 @@ function renderTable() {
   tableBody.innerHTML = filteredUsers
     .map(
       (user) => `<tr userid= "${user.id}">
-        <td>${user.firstname}</td>
-        <td>${user.lastname}</td>
+        <td>${user.firstName}</td>
+        <td>${user.lastName}</td>
         <td>${user.email}</td>
-        <td>${user.phonenumber}</td>
+        <td>${user.phoneNumber}</td>
         <td>${user.dob}</td>
         <td>${user.age}</td>
 
@@ -96,8 +96,8 @@ function renderTable() {
 function deleteById(id) {
   if (!confirm("are you sure you wanna delete this user?")) return;
   const users = getUsers();
-  const updateusers = users.filter((user) => user.id != id);
-  localStorage.setItem("usersList", JSON.stringify(updateusers));
+  const updatedUsers = users.filter((user) => user.id != id);
+  localStorage.setItem("usersList", JSON.stringify(updatedUsers));
   renderTable();
 }
 let currentId = null;
@@ -107,10 +107,10 @@ function editById(id) {
   const user = users.find((u) => u.id == id);
   if (!user) return;
 
-  document.getElementById("firstname").value = user.firstname;
-  document.getElementById("lastname").value = user.lastname;
+  document.getElementById("firstname").value = user.firstName;
+  document.getElementById("lastname").value = user.lastName;
   document.getElementById("email").value = user.email;
-  document.getElementById("phonenumber").value = user.phonenumber;
+  document.getElementById("phonenumber").value = user.phoneNumber;
   document.getElementById("dob").value = user.dob;
   document.getElementById("gender").value = user.gender;
 
@@ -164,10 +164,10 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const firstname = document.getElementById("firstname").value.trim();
-    const lastname = document.getElementById("lastname").value.trim();
+    const firstName = document.getElementById("firstname").value.trim();
+    const lastName = document.getElementById("lastname").value.trim();
     const email = document.getElementById("email").value.trim();
-    const phonenumber = document.getElementById("phonenumber").value.trim();
+    const phoneNumber = document.getElementById("phonenumber").value.trim();
     const dob = document.getElementById("dob").value;
     const gender = document.getElementById("gender").value;
     const phone = /^\d{8}$/;
@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    if (!phone.test(phonenumber)) {
+    if (!phone.test(phoneNumber)) {
       errormsg.textContent = "Please enter a valid phone number";
       return;
     }
@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (
       users.some(
-        (user) => user.phonenumber === phonenumber && user.id != currentId,
+        (user) => user.phoneNumber === phoneNumber && user.id != currentId,
       )
     ) {
       errormsg.textContent = "Phone number already exists";
@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (
         users.some(
-          (user) => user.phonenumber === phonenumber && user.id != currentId,
+          (user) => user.phoneNumber === phoneNumber && user.id != currentId,
         )
       ) {
         errormsg.textContent = "Phone number already exists";
@@ -239,14 +239,14 @@ document.addEventListener("DOMContentLoaded", function () {
     errormsg.textContent = "";
 
     if (currentId !== null) {
-      const updatedusers = users.map((user) =>
+      const updatedUsers = users.map((user) =>
         user.id == currentId
           ? {
               id: currentId,
-              firstname,
-              lastname,
+              firstName,
+              lastName,
               email,
-              phonenumber,
+              phoneNumber,
               dob,
               age,
               gender,
@@ -254,7 +254,7 @@ document.addEventListener("DOMContentLoaded", function () {
           : user,
       );
 
-      localStorage.setItem("usersList", JSON.stringify(updatedusers));
+      localStorage.setItem("usersList", JSON.stringify(updatedUsers));
 
       currentId = null;
 
@@ -263,21 +263,21 @@ document.addEventListener("DOMContentLoaded", function () {
       renderTable();
       alert("User updated");
     } else {
-      let currenteditid = Number(localStorage.getItem("nextuserid")) || 0;
-      const id = currenteditid++;
+      let currendEditId = Number(localStorage.getItem("nextUserId")) || 0;
+      const id = currendEditId++;
       users.push({
         id,
-        firstname,
-        lastname,
+        firstName,
+        lastName,
         email,
-        phonenumber,
+        phoneNumber,
         dob,
         age,
         gender,
       });
 
       localStorage.setItem("usersList", JSON.stringify(users));
-      localStorage.setItem("nextuserid", currenteditid);
+      localStorage.setItem("nextUserId", currendEditId);
 
       getMe();
       form.reset();
