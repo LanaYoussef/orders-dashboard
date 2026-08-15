@@ -2,6 +2,20 @@ function getUsers() {
   return JSON.parse(localStorage.getItem("usersList")) || [];
 }
 
+const apiKey = "187a4762ddc38fb678255689c6b72bdd";
+const apiUrl =
+  "https://api.openweathermap.org/data/2.5/weather?units=metric&q=Beirut";
+
+async function checkWeather() {
+  const response = await fetch(apiUrl + `&appid=${apiKey}`);
+  var data = await response.json();
+  console.log("idk");
+  document.querySelector(".city").innerHTML = data.name;
+  document.querySelector(".temp").innerHTML = data.main.temp;
+  document.querySelector(".humidity").innerHTML = data.main.humidity;
+  document.querySelector(".wind").innerHTML = data.wind.speed;
+}
+
 function getHeartBeat() {
   const xhr = new XMLHttpRequest();
   xhr.open("GET", "/api/heartbeat.php");
@@ -143,6 +157,9 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   getMe();
+
+  checkWeather();
+  setInterval(checkWeather, 3000);
 
   getHeartBeat();
   setInterval(getHeartBeat, 5000);
