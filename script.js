@@ -1,19 +1,16 @@
-function getUsers() {
-  return JSON.parse(localStorage.getItem("usersList")) || [];
+async function getUsers() {
+  const response = await fetch("/api/users");
+  return await response.json();
 }
 
-const apiKey = "187a4762ddc38fb678255689c6b72bdd";
-const apiUrl =
-  "https://api.openweathermap.org/data/2.5/weather?units=metric&q=Beirut";
-
 async function checkWeather() {
-  const response = await fetch(apiUrl + `&appid=${apiKey}`);
-  var data = await response.json();
-  console.log("idk");
-  document.querySelector(".city").innerHTML = data.name;
-  document.querySelector(".temp").innerHTML = data.main.temp;
-  document.querySelector(".humidity").innerHTML = data.main.humidity;
-  document.querySelector(".wind").innerHTML = data.wind.speed;
+  const response = await fetch("/api/weather.php");
+  const data = await response.json();
+  if (data.error) return;
+  document.querySelector(".city").innerHTML = data.city;
+  document.querySelector(".temp").innerHTML = data.temp;
+  document.querySelector(".humidity").innerHTML = data.humidity;
+  document.querySelector(".wind").innerHTML = data.wind;
 }
 
 function getHeartBeat() {
@@ -50,9 +47,9 @@ function calculateAge(dob) {
   return age;
 }
 
-function renderTable() {
+async function renderTable() {
   const tableBody = document.getElementById("tbody");
-  const users = getUsers();
+  const users = await getUsers();
   const search = document.getElementById("search").value.toLowerCase();
   const ageFilter = document.getElementById("ageFilter").value;
   const genderFilter = document.getElementById("genderFilter").value;
@@ -107,19 +104,17 @@ function renderTable() {
     .join("");
 }
 
-function deleteById(id) {
+async function deleteById(id) {
   if (!confirm("are you sure you wanna delete this user?")) return;
-  const users = getUsers();
-  const updatedUsers = users.filter((user) => user.id != id);
-  localStorage.setItem("usersList", JSON.stringify(updatedUsers));
-  renderTable();
+  await fetch("/api/users/" + id, { method: "DELETE" });
+  await renderTable();
 }
 let currentId = null;
 
-function editById(id) {
-  const users = getUsers();
-  const user = users.find((u) => u.id == id);
-  if (!user) return;
+async function editById(id) {
+  const response = await fetch("/api/users/" + id);
+  const user = await response.json();
+  if (!user || user.error) return;
 
   document.getElementById("firstname").value = user.firstName;
   document.getElementById("lastname").value = user.lastName;
@@ -129,7 +124,6 @@ function editById(id) {
   document.getElementById("gender").value = user.gender;
 
   currentId = id;
-
   document.getElementById("myDialog").showModal();
 }
 
@@ -178,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
     dialog.close();
   });
 
-  form.addEventListener("submit", function (e) {
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const firstName = document.getElementById("firstname").value.trim();
@@ -193,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const birth = new Date(dob);
     const age = calculateAge(dob);
 
-    const users = getUsers();
+    const users = await getUsers();
 
     if (!email.includes("@") || !email.includes(".")) {
       errormsg.textContent = "Please enter a valid email";
@@ -231,75 +225,37 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     errormsg.textContent = "";
-    if (currentId === null) {
-      if (
-        users.some(
-          (user) =>
-            user.email.toLowerCase() === email.toLowerCase() &&
-            user.id != currentId,
-        )
-      ) {
-        errormsg.textContent = "Email already exists";
-        return;
-      }
 
-      if (
-        users.some(
-          (user) => user.phoneNumber === phoneNumber && user.id != currentId,
-        )
-      ) {
-        errormsg.textContent = "Phone number already exists";
-        return;
-      }
-    }
-
-    errormsg.textContent = "";
+    const payload = {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      dob,
+      age,
+      gender,
+    };
 
     if (currentId !== null) {
-      const updatedUsers = users.map((user) =>
-        user.id == currentId
-          ? {
-              id: currentId,
-              firstName,
-              lastName,
-              email,
-              phoneNumber,
-              dob,
-              age,
-              gender,
-            }
-          : user,
-      );
-
-      localStorage.setItem("usersList", JSON.stringify(updatedUsers));
-
+      await fetch("/api/users/" + currentId, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
       currentId = null;
-
       form.reset();
       dialog.close();
-      renderTable();
+      await renderTable();
       alert("User updated");
     } else {
-      let currendEditId = Number(localStorage.getItem("nextUserId")) || 0;
-      const id = currendEditId++;
-      users.push({
-        id,
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        dob,
-        age,
-        gender,
+      await fetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
-
-      localStorage.setItem("usersList", JSON.stringify(users));
-      localStorage.setItem("nextUserId", currendEditId);
-
-      getMe();
       form.reset();
       dialog.close();
-      renderTable();
+      await renderTable();
       alert("User added");
     }
   });

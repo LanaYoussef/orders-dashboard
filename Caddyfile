@@ -1,6 +1,7 @@
 :80
 
 root * /var/www/html
+rewrite /api/users* /api/router.php
 php_fastcgi php:9000
 file_server
  
