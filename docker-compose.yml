@@ -1,6 +1,6 @@
 services:
   php:
-    image: php:8.4-fpm
+    build: .
     env_file:
       - .env
     volumes:
@@ -13,3 +13,11 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
     ports:
       - "8080:80"
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: users
+    ports:
+      - "5432:5432"

@@ -1,19 +1,19 @@
 <?php 
 
-require_once __DIR__ . '/../repositories/UserRepository.php';
+require_once __DIR__ . '/../repositories/PostgresUserRepository.php';
 
 class UserController{
 
     public function index(){
         header('Content-Type: application/json');
 
-        $repo = new UserRepository();
-        echo json_encode($repo->get());
+        $repo = new PostgresUserRepository();
+        echo json_encode($repo->findAll());
     }
     public function show($id){
         header('Content-Type: application/json');
 
-        $repo = new UserRepository();
+        $repo = new PostgresUserRepository();
         $user = $repo->find($id);
         if( $user == null){
             http_response_code(404);
@@ -25,7 +25,7 @@ class UserController{
     public function store(){
         header('Content-Type: application/json');
 
-        $repo = new UserRepository();
+        $repo = new PostgresUserRepository();
         $data = json_decode(file_get_contents('php://input'), true);
 
         $user = $repo->create($data);
@@ -35,7 +35,7 @@ class UserController{
     public function update($id){
         header('Content-Type: application/json');
 
-        $repo = new UserRepository();
+        $repo = new PostgresUserRepository();
         $data = json_decode(file_get_contents('php://input'), true);
 
         $user = $repo->update($id, $data);
@@ -50,7 +50,7 @@ class UserController{
     public function destroy($id){
         header('Content-Type: application/json');
 
-        $repo = new UserRepository();
+        $repo = new PostgresUserRepository();
         if(!$repo->delete($id)){
             http_response_code(404);
             echo json_encode(['error' => 'User not found']);
