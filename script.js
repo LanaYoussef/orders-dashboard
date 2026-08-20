@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
   getMe();
 
   checkWeather();
-  setInterval(checkWeather, 3000);
+  setInterval(checkWeather, 60000);
 
   getHeartBeat();
   setInterval(getHeartBeat, 5000);

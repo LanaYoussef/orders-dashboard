@@ -13,7 +13,7 @@ if (!$key) {
 $url = 'https://api.openweathermap.org/data/2.5/weather'
     . '?q=Beirut&units=metric&appid=' . urlencode($key);
 
-$json = shell_exec('curl -sk ' . escapeshellarg($url));
+$json = shell_exec('curl -sS --tls-max 1.2 ' . escapeshellarg($url));
 $apiData = json_decode($json, true);
 
 if (!$apiData || !isset($apiData['main']['temp'])) {
