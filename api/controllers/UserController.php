@@ -1,20 +1,24 @@
 <?php 
 
-require_once __DIR__ . '/../repositories/PostgresUserRepository.php';
+require_once __DIR__ . '/../repositories/UserRepositoryFactory.php';
 
 class UserController{
+
+    private UserRepository $repo;
+
+    public function __construct(){
+        $this->repo = UserRepositoryFactory::make();
+    }
 
     public function index(){
         header('Content-Type: application/json');
 
-        $repo = new PostgresUserRepository();
-        echo json_encode($repo->findAll());
+        echo json_encode($this->repo->findAll());
     }
     public function show($id){
         header('Content-Type: application/json');
 
-        $repo = new PostgresUserRepository();
-        $user = $repo->find($id);
+        $user = $this->repo->find($id);
         if( $user == null){
             http_response_code(404);
             echo json_encode(['error' => 'User not found']);
@@ -24,21 +28,18 @@ class UserController{
     }
     public function store(){
         header('Content-Type: application/json');
-
-        $repo = new PostgresUserRepository();
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $user = $repo->create($data);
+        $user = $this->repo->create($data);
         http_response_code(201);
         echo json_encode($user);
     }
     public function update($id){
         header('Content-Type: application/json');
 
-        $repo = new PostgresUserRepository();
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $user = $repo->update($id, $data);
+        $user = $this->repo->update($id, $data);
         if( $user == null){
             http_response_code(404);
             echo json_encode(['error' => 'User not found']);
@@ -50,8 +51,7 @@ class UserController{
     public function destroy($id){
         header('Content-Type: application/json');
 
-        $repo = new PostgresUserRepository();
-        if(!$repo->delete($id)){
+        if(!$this->repo->delete($id)){
             http_response_code(404);
             echo json_encode(['error' => 'User not found']);
             return;

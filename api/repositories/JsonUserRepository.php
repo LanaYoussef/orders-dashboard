@@ -14,7 +14,7 @@ class JsonUserRepository implements UserRepository{
     }
 
 
-    public function get(){
+    public function findAll(){
         $users = $this->store->findAll();
         $result = [];
         foreach ($users as $user) {
