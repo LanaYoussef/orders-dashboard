@@ -1,0 +1,134 @@
+body {
+  margin: 0;
+  background-color: rgb(230, 210, 175);
+  flex-wrap: wrap;
+
+  text-align: center;
+  align-content: center;
+}
+
+.errormsg {
+  color: red;
+  min-height: 1.2em;
+}
+
+.req {
+  color: red;
+}
+
+header {
+  color: aliceblue;
+  text-align: center;
+  background-color: burlywood;
+}
+
+h3 {
+  text-align: center;
+  color: rgb(236, 100, 209);
+}
+
+h5 {
+  color: rgb(245, 232, 242);
+  margin: 60px;
+
+  font-style: italic;
+}
+
+.openBtn {
+  color: rgb(236, 100, 209);
+  border-radius: 30px;
+
+  margin: 20px;
+}
+
+.openBtn:hover {
+  background-color: rgb(236, 100, 209);
+  color: aliceblue;
+}
+
+.addform {
+  border: 20px;
+  padding: 50px;
+  max-width: 250px;
+  background-color: rgb(245, 184, 229);
+  color: aliceblue;
+}
+
+.formrow {
+  padding: 20px;
+}
+
+.table {
+  text-align: center;
+  background-color: rgb(235, 226, 243);
+  color: rgb(240, 168, 229);
+  border-radius: 10px;
+  border-color: rgb(211, 169, 227);
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+}
+
+.rl:hover {
+  color: grey;
+}
+
+.save {
+  color: rgb(236, 100, 209);
+  border-radius: 30px;
+}
+.save:hover {
+  background-color: rgb(236, 100, 209);
+  color: aliceblue;
+}
+
+.closeBtn {
+  color: rgb(236, 100, 209);
+  border-radius: 30px;
+}
+
+.closeBtn:hover {
+  background-color: rgb(236, 100, 209);
+  color: aliceblue;
+}
+
+.form1 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dltbtn {
+  color: rgb(236, 100, 209);
+  margin-right: 5px;
+  border-radius: 30px;
+}
+
+.dltbtn:hover {
+  background-color: rgb(236, 100, 209);
+  color: aliceblue;
+}
+.editbtn {
+  color: rgb(236, 100, 209);
+  border-radius: 30px;
+}
+
+.editbtn:hover {
+  background-color: rgb(236, 100, 209);
+  color: aliceblue;
+}
+
+.btns {
+  margin: 10px;
+
+  display: flex;
+}
+
+.table th {
+  background-color: burlywood;
+  color: aliceblue;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.search {
+  border-radius: 20px;
+}
