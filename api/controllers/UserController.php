@@ -29,7 +29,11 @@ class UserController{
     public function store(){
         header('Content-Type: application/json');
         $data = json_decode(file_get_contents('php://input'), true);
-
+        if (!is_array($data)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid JSON body']);
+            return;
+        }
         $user = $this->repo->create($data);
         http_response_code(201);
         echo json_encode($user);
@@ -38,7 +42,11 @@ class UserController{
         header('Content-Type: application/json');
 
         $data = json_decode(file_get_contents('php://input'), true);
-
+        if (!is_array($data)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid JSON body']);
+            return;
+        }
         $user = $this->repo->update($id, $data);
         if( $user == null){
             http_response_code(404);

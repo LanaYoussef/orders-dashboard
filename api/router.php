@@ -55,8 +55,17 @@ try {
         $controller->$method();
     }
 } catch (\Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
+    http_response_code(404);
     echo "Route not found";
 } catch (\Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
     http_response_code(405);
     echo json_encode(['error' => 'Method not allowed']);
+} catch (\PDOException $e) {
+    http_response_code($e->getCode() === '23505' ? 409 : 500);
+    echo json_encode(['error' => $e->getCode() === '23505'
+        ? 'Email or phone number already exists'
+        : 'Database error']);
+} catch (\Throwable $e) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Internal server error']);
 }
