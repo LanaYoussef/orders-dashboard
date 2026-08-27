@@ -96,10 +96,10 @@ async function renderTable() {
         <td>${user.dob}</td>
         <td>${user.age}</td>
 
-        <td><div class="btns"><button class="dltbtn" onclick="deleteById(${user.id})"> Delete </button>
-        <button class="editbtn" onclick="editById(${user.id})" > Edit </button></div></td>
-
-        </tr>`,
+        <td><div class="btns">
+        <button class="btn btn-danger btn-sm" onclick="deleteById(${user.id})">Delete</button>
+        <button class="btn btn-warning btn-sm" onclick="editById(${user.id})">Edit</button>
+      </div></td>`,
     )
     .join("");
 }
