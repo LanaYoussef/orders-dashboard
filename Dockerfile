@@ -4,4 +4,4 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     curl \
     && update-ca-certificates \
-    && docker-php-ext-install pdo pdo_pgsql
+&& docker-php-ext-install pdo pdo_pgsql sockets pcntl

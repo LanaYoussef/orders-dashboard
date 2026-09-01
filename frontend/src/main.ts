@@ -9,6 +9,21 @@ type User = {
   gender: string;
 };
 
+function connectSocket(): void {
+  const protocol = location.protocol === "https:" ? "wss:" : "ws:";
+  const socket = new WebSocket(`${protocol}//${location.host}/ws`);
+
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    if (data.type === "users_changed") {
+      renderTable();
+    }
+  };
+  socket.onclose = () => {
+    setTimeout(connectSocket, 3000);
+  };
+}
+
 async function getUsers(): Promise<User[]> {
   const response = await fetch("/api/users");
   return await response.json();
@@ -182,8 +197,10 @@ getMe();
 checkWeather();
 setInterval(checkWeather, 60000);
 getHeartBeat();
-setInterval(getHeartBeat, 5000);
+setInterval(getHeartBeat, 3000);
 renderTable();
+connectSocket();
+
 
 openBtn.addEventListener("click", () => {
   currentId = null;
@@ -193,7 +210,6 @@ openBtn.addEventListener("click", () => {
 
 form.addEventListener("submit", async function (e) {
   e.preventDefault();
-  alert("save ran");
 
   const firstName = (
     document.getElementById("firstname") as HTMLInputElement

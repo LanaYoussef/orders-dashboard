@@ -2,7 +2,8 @@
     "require": {
         "symfony/routing": "^7.4",
         "symfony/http-foundation": "^7.4",
-        "rakibtg/sleekdb": "2.50"
+        "rakibtg/sleekdb": "2.50",
+        "workerman/workerman": "^5.2"
     },
     "config": {
         "platform": {
