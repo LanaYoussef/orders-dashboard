@@ -225,43 +225,7 @@ form.addEventListener("submit", async function (e) {
   ).value.trim();
   const dob = (document.getElementById("dob") as HTMLInputElement).value;
   const gender = (document.getElementById("gender") as HTMLSelectElement).value;
-  const phone = /^\d{8}$/;
-  const today = new Date();
-  const birth = new Date(dob);
-  const age = calculateAge(dob);
-  const users = await getUsers();
-
-  if (!email.includes("@") || !email.includes(".")) {
-    errormsg.textContent = "please enter valid email";
-    return;
-  }
-  if (!phone.test(phoneNumber)) {
-    errormsg.textContent = "not a valid phone number";
-    return;
-  }
-  if (birth > today || age < 6) {
-    errormsg.textContent = "not a valid phone number";
-    return;
-  }
-  if (
-    users.some(
-      (user) =>
-        user.email.toLowerCase() === email.toLowerCase() &&
-        user.id != currentId,
-    )
-  ) {
-    errormsg.textContent = "Email already exists";
-    return;
-  }
-  if (
-    users.some(
-      (user) => user.phoneNumber === phoneNumber && user.id != currentId,
-    )
-  ) {
-    errormsg.textContent = "number already exists";
-    return;
-  }
-
+  
   errormsg.textContent = "";
   const payload = {
     firstName,
@@ -269,29 +233,25 @@ form.addEventListener("submit", async function (e) {
     email,
     phoneNumber,
     dob,
-    age,
     gender,
   };
-  if (currentId !== null) {
-    await fetch("/api/users/" + currentId, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    currentId = null;
-    form.reset();
-    dialog.close();
-    await renderTable();
-    alert("User updated");
-  } else {
-    await fetch("/api/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    form.reset();
-    dialog.close();
-    await renderTable();
-    alert("User added");
-  }
+ 
+const isEdit = currentId !== null;
+const response = await fetch(
+  isEdit ? "/api/users/" + currentId : "/api/users",
+  {
+    method: isEdit ? "PUT" : "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  },
+);
+const data = await response.json();
+if (!response.ok) {
+  errormsg.textContent = data.error ?? "Request failed";
+  return;
+}
+currentId = null;
+form.reset();
+dialog.close();
+await renderTable();
 });

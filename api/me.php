@@ -4,8 +4,8 @@ header('Content-Type: application/json');
 
 $user = [
     'id' => 1,
-    'first_name' => 'lana',
-    'last_name' => 'youssef',
+    'firstName' => 'lana',
+    'lastName' => 'youssef',
     'email' => 'lanayusf12@gmail.com'
 ];
 
