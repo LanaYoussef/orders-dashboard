@@ -1,3 +1,48 @@
 export default function App() {
-  return <h1>User Management</h1>;
+  return (
+    <>
+      <header className="header">
+        <h1>User Management</h1>
+      </header>
+
+      <div className="form1">
+        <h3>Welcome</h3>
+        <p className="heartbeat">Heartbeat..</p>
+        <p className="city">City</p>
+        <p className="temp">Temp</p>
+        <p className="humidity">Humidity</p>
+        <p className="wind">Wind</p>
+        <button className="btn btn-primary" type="button">
+          Add User
+        </button>
+      </div>
+      <input type="text" className="form-control" placeholder="Search..." />
+      <select className="form-select" defaultValue="all">
+        <option value="all">All ages</option>
+        <option value="kid">Kid</option>
+        <option value="teen">Teen</option>
+        <option value="adult">Adult</option>
+        <option value="almost-dead">Almost Dead</option>
+      </select>
+      <select className="form-select" defaultValue="all">
+        <option value="all">All genders</option>
+        <option value="Female">Female</option>
+        <option value="Male">Male</option>
+      </select>
+      <table className="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+            <th>Phone number</th>
+            <th>Date of birth</th>
+            <th>Age</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody />
+      </table>
+    </>
+  );
 }
