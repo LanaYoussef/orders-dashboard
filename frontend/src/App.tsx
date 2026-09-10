@@ -1,3 +1,5 @@
+import StatusBar from "./StatusBar";
+
 export default function App() {
   return (
     <>
@@ -5,18 +7,8 @@ export default function App() {
         <h1>User Management</h1>
       </header>
 
-      <div className="form1">
-        <h3>Welcome</h3>
-        <p className="heartbeat">Heartbeat..</p>
-        <p className="city">City</p>
-        <p className="temp">Temp</p>
-        <p className="humidity">Humidity</p>
-        <p className="wind">Wind</p>
-        <button className="btn btn-primary" type="button">
-          Add User
-        </button>
-      </div>
-      <input type="text" className="form-control" placeholder="Search..." />
+      <StatusBar onAdd={() => {}} />
+      <input type="text" className="form-control" placeholder="search..." />
       <select className="form-select" defaultValue="all">
         <option value="all">All ages</option>
         <option value="kid">Kid</option>
