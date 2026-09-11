@@ -19,7 +19,7 @@ export async function saveUser(
     isEdit ? "/api/users/" + editingId : "/api/users",
     {
       method: isEdit ? "PUT" : "POST",
-      headers: { Content_Type: "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     },
   );

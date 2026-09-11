@@ -1,10 +1,10 @@
-import StatusBar from "./StatusBar";
+import StatusBar from "./Components/StatusBar";
 import { useEffect, useMemo, useState } from "react";
 import { deleteUser, getUsers, getUser, saveUser } from "./api";
-import UserTable from "./UserTable";
+import UserTable from "./Components/UserTable";
 import { emptyForm } from "./types";
 import type { User, UserForm } from "./types";
-import UserDialog from "./UserDialog";
+import UserDialog from "./Components/UserDialog";
 
 export default function App() {
   const [users, setUsers] = useState<User[]>([]);

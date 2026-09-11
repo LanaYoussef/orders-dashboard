@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import type { UserForm } from "./types";
+import type { UserForm } from "../types";
 
 type Props = {
   open: boolean;

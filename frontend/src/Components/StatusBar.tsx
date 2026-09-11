@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { getHeartbeat, getMe, getWeather } from "./api";
-import type { Weather } from "./types";
+import { getHeartbeat, getMe, getWeather } from "../api";
+import type { Weather } from "../types";
 
 type Props = {
   onAdd: () => void;
 };
-export default function statusBar({ onAdd }: Props) {
+export default function StatusBar({ onAdd }: Props) {
   const [welcome, setWelcome] = useState("welcome");
   const [heartbeat, setHeartbeat] = useState("heartbeat...");
   const [weather, setWeather] = useState<Weather | null>(null);
