@@ -1,14 +1,21 @@
 import StatusBar from "./StatusBar";
 import { useEffect, useMemo, useState } from "react";
-import { deleteUser, getUsers } from "./api";
-import type { User } from "./types";
+import { deleteUser, getUsers, getUser, saveUser } from "./api";
 import UserTable from "./UserTable";
+import { emptyForm } from "./types";
+import type { User, UserForm } from "./types";
+import UserDialog from "./UserDialog";
 
 export default function App() {
   const [users, setUsers] = useState<User[]>([]);
   const [search, setSearch] = useState("");
   const [ageFilter, setAgeFilter] = useState("all");
   const [genderFilter, setGenderFilter] = useState("all");
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [form, setForm] = useState<UserForm>(emptyForm);
+  const [error, setError] = useState("");
+
   async function loadUsers() {
     setUsers(await getUsers());
   }
@@ -47,13 +54,71 @@ export default function App() {
     await loadUsers();
   }
 
+  function openAdd() {
+    setEditingId(null);
+    setForm(emptyForm);
+    setError("");
+    setDialogOpen(true);
+  }
+  function closeDialog() {
+    setEditingId(null);
+    setForm(emptyForm);
+    setError("");
+    setDialogOpen(false);
+  }
+  async function openEdit(id: number) {
+    const user = await getUser(id);
+    if (!user || "error" in user) return;
+    setForm({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      dob: user.dob,
+      gender: user.gender,
+    });
+    setEditingId(id);
+    setError("");
+    setDialogOpen(true);
+  }
+
+  async function handleSubmit() {
+    setError("");
+    const payload: UserForm = {
+      firstName: form.firstName.trim(),
+      lastName: form.lastName.trim(),
+      email: form.email.trim(),
+      phoneNumber: form.phoneNumber.trim(),
+      dob: form.dob,
+      gender: form.gender,
+    };
+    const result = await saveUser(payload, editingId);
+    if (!result.ok) {
+      setError(result.error ?? "Request failed");
+      return;
+    }
+    closeDialog();
+    await loadUsers();
+  }
+
   return (
     <>
       <header className="header">
         <h1>User Management</h1>
       </header>
 
-      <StatusBar onAdd={() => {}} />
+      <StatusBar onAdd={openAdd} />
+
+      <UserDialog
+        open={dialogOpen}
+        form={form}
+        error={error}
+        onChange={(field, value) =>
+          setForm((prev) => ({ ...prev, [field]: value }))
+        }
+        onClose={closeDialog}
+        onSubmit={handleSubmit}
+      />
 
       <UserTable
         users={filtered}
@@ -63,7 +128,7 @@ export default function App() {
         onSearch={setSearch}
         onAgeFilter={setAgeFilter}
         onGenderFilter={setGenderFilter}
-        onEdit={() => {}}
+        onEdit={openEdit}
         onDelete={handleDelete}
       />
     </>

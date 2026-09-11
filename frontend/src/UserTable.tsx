@@ -41,7 +41,7 @@ export default function UserTable({
         <option value="kid">Kid</option>
         <option value="teen">Teen</option>
         <option value="adult">Adult</option>
-        <option value="senior">Almost Dead</option>
+        <option value="senior">Senior</option>
       </select>
       <select
         className="form-select"
