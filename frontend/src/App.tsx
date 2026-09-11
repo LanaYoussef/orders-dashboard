@@ -19,6 +19,36 @@ export default function App() {
   async function loadUsers() {
     setUsers(await getUsers());
   }
+
+  useEffect(() => {
+    let socket: WebSocket | null = null;
+    let reconnectTimer: number | undefined;
+    let cancelled = false;
+
+    function connect() {
+      const protocol = location.protocol === "https:" ? "wss:" : "ws:";
+      socket = new WebSocket(`${protocol}//${location.host}/ws`);
+      socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.type === "users_changed") {
+          loadUsers();
+        }
+      };
+      socket.onclose = () => {
+        if (!cancelled) {
+          reconnectTimer = window.setTimeout(connect, 3000);
+        }
+      };
+    }
+
+    connect();
+    return () => {
+      cancelled = true;
+      if (reconnectTimer) clearTimeout(reconnectTimer);
+      socket?.close();
+    };
+  }, []);
+
   useEffect(() => {
     loadUsers();
   }, []);
