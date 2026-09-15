@@ -13,6 +13,8 @@ services:
     volumes:
       - .:/var/www/html
       - ./Caddyfile:/etc/caddy/Caddyfile
+    environment:
+      - WS_PORT=${WS_PORT}
     ports:
       - "8080:80"
   postgres:

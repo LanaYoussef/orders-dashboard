@@ -1,6 +1,6 @@
 :80 {
 	handle /ws {
-		reverse_proxy websocket:8081
+		reverse_proxy websocket:{$WS_PORT}
 	}
 
 	handle {

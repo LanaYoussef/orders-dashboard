@@ -5,7 +5,7 @@ require_once __DIR__ . '/repositories/UserRepositoryFactory.php';
 use Workerman\Timer;
 use Workerman\Worker;
 
-$worker = new Worker('websocket://0.0.0.0:8081');
+$worker = new Worker('websocket://0.0.0.0:' . $_ENV['WS_PORT']);
 $worker->count = 1;
 
 Worker::$daemonize = false;
