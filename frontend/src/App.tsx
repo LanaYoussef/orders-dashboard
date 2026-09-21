@@ -15,6 +15,7 @@ export default function App() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [form, setForm] = useState<UserForm>(emptyForm);
   const [error, setError] = useState("");
+  const [hello, setHello] = useState("");
 
   async function loadUsers() {
     setUsers(await getUsers());
@@ -50,8 +51,15 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    fetch("/api/hello")
+      .then((res) => res.text())
+      .then(setHello);
+  }, []);
+
+  useEffect(() => {
     loadUsers();
   }, []);
+
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
     let list = users.filter(
@@ -135,6 +143,7 @@ export default function App() {
     <>
       <header className="header">
         <h1>User Management</h1>
+        <p>{hello}</p>
       </header>
 
       <StatusBar onAdd={openAdd} />

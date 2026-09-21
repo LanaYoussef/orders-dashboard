@@ -2,6 +2,11 @@
 	handle /ws {
 		reverse_proxy websocket:{$WS_PORT}
 	}
+	
+	handle /api/hello* {
+		root * /var/www/html/laravel/public
+		php_fastcgi php:9000
+	}
 
 	handle {
 		root * /var/www/html
