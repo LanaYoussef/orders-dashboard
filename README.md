@@ -1,56 +1,35 @@
 # User Management
 
-PHP API (Caddy + PHP-FPM) with PostgreSQL. The API is at `http://localhost:8080`. The UI is the Vite app at `http://localhost:5173`.
+Laravel API (`/backend`) + React (`/frontend`) + Postgres, all via Docker.
+Open http://localhost:8080
 
 ## Requirements
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- [Composer](https://getcomposer.org/) (for PHP packages)
-- [Node.js](https://nodejs.org/) (for the React UI)
+- Docker Desktop
 
 ## Setup
 
-1. Clone the repo and open the folder:
+1. Copy the env file:
+
+copy backend\.env.example backend\.env
+
+2. Start the stack:
 
 ```bash
-git clone https://github.com/TrainTrainee/UserManagement.git
-cd UserManagement
-```
-
-2. Create a `.env` file:
-
-```env
-OPENWEATHER_API_KEY=
-DB_HOST=postgres
-DB_PORT=5432
-DB_NAME=users
-DB_USER=app
-DB_PASSWORD=
-STORAGE_DRIVER=postgres
-```
-
-3. Install PHP dependencies and start Docker:
-
-```bash
-composer install
 docker compose up -d --build
 ```
 
-4. Create the users table (Postgres starts empty):
+3. Install PHP packages, generate the app key, migrate:
 
 ```bash
-docker compose exec postgres psql -U app -d users -c "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, first_name TEXT, last_name TEXT, email TEXT UNIQUE, phone_number TEXT UNIQUE, dob DATE, age INT, gender TEXT);"
+docker compose exec -e COMPOSER_PROCESS_TIMEOUT=0 backend composer install
+docker compose exec backend php artisan key:generate
+docker compose exec backend php artisan migrate --seed
 ```
 
-5. Start the React UI (Docker must already be up):
+4. Open http://localhost:8080
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Open the URL Vite prints (usually http://localhost:5173).
+Frontend `npm install` runs inside the container on start.
 
 ## Useful commands
 
@@ -58,11 +37,5 @@ Open the URL Vite prints (usually http://localhost:5173).
 docker compose ps
 docker compose logs -f
 docker compose down
+docker compose down -v
 ```
-
-### Troubleshooting
-
-- relation "users" does not exist / "Database error": run the CREATE TABLE command in step 4.
-- password authentication failed: `.env` password does not match Postgres. Recreate PHP after fixing `.env`: `docker compose up -d --force-recreate php`.
-- Port 8080 or 5432 already in use: stop the other app, or change the ports in `docker-compose.yml`.
-- `GET /api/... 502`: Docker is not running. Start it, then retry the Vite app.

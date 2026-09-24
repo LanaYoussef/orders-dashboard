@@ -1,17 +1,13 @@
 :80 {
-	handle /ws {
-		reverse_proxy websocket:{$WS_PORT}
-	}
-	
-	handle /api/hello* {
-		root * /var/www/html/laravel/public
-		php_fastcgi php:9000
+	@laravel path /up /api* /sanctum* /login /logout
+
+	handle @laravel {
+		root * /var/www/html/public
+		php_fastcgi backend:9000
+		file_server
 	}
 
 	handle {
-		root * /var/www/html
-		rewrite /api/users* /api/router.php
-		php_fastcgi php:9000
-		file_server
+		reverse_proxy frontend:5173
 	}
 }
