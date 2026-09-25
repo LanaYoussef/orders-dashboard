@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('descriptioj')-nullable();
+            $table->text('description')->nullable();
             $table->string('picture')->nullable();
             $table->decimal('price', 10, 2);
             $table->string('currency', 3)->default('USD');
