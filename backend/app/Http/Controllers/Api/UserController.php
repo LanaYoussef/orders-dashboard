@@ -34,7 +34,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        $user->loadCount('orders');
+        return new UserResource($user);
     }
 
     /**
