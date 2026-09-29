@@ -12,3 +12,5 @@ Route::get('/users/{user}/orders', [OrderController::class, 'index']);
 Route::get('/items',[ItemController::class,'index']);
 Route::get('/items/{item}',[ItemController::class,'show']);
 Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
+Route::post('/users', [UserController::class, 'store'])
+    ->middleware('auth:sanctum');
