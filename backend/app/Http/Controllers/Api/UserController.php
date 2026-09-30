@@ -8,12 +8,12 @@ use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Actions\CreateUserAction;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Actions\EditUserAction;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   
     public function index()
     {
         $users = User::query()
@@ -23,9 +23,6 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreUserRequest $request)
     {
         $user = (new CreateUserAction)($request->validated());
@@ -35,26 +32,21 @@ class UserController extends Controller
             ->setStatusCode(201);
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(User $user)
     {
         $user->loadCount('orders');
         return new UserResource($user);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $user)
+   
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $user = (new EditUserAction)($user, $request->validated());
+        return new UserResource($user);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+   
     public function destroy(User $user)
     {
         //
