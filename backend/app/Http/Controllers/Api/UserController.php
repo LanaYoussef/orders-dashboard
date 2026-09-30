@@ -10,6 +10,7 @@ use App\Actions\CreateUserAction;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Actions\EditUserAction;
+use App\Actions\DeleteUserAction;
 
 class UserController extends Controller
 {
@@ -49,6 +50,8 @@ class UserController extends Controller
    
     public function destroy(User $user)
     {
-        //
+        (new DeleteUserAction)($user);
+
+        return response()->noContent();
     }
 }
