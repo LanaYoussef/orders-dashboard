@@ -20,3 +20,5 @@ Route::delete('/users/{user}', [UserController::class, 'destroy'])
     ->middleware('auth:sanctum');
 Route::put('/items/{item}',[ItemController::class,'update'])
     ->middleware('auth:sanctum');
+Route::post('/users/{user}/orders', [OrderController::class, 'store'])
+    ->middleware('auth:sanctum');
