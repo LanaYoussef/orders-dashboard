@@ -9,7 +9,8 @@ use App\Http\Resources\OrderResource;
 use App\Models\User;
 use App\Http\Requests\StoreOrderRequest;
 use App\Actions\CreateOrderAction ;
-
+use App\Http\Requests\UpdateOrderStatusRequest;
+use App\Actions\UpdateOrderStatusAction;
 
 
 class OrderController extends Controller
@@ -42,9 +43,10 @@ class OrderController extends Controller
     }
 
    
-    public function update(Request $request, Order $order)
+    public function update(UpdateOrderStatusRequest $request, Order $order)
     {
-        //
+        $order = (new UpdateOrderStatusAction)($order, $request->validated());
+        return new OrderResource($order);
     }
 
     

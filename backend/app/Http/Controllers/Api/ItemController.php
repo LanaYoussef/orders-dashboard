@@ -33,6 +33,11 @@ class ItemController extends Controller
     
     public function show(Item $item)
     {
+        $item->load([
+            'orderItems' => fn ($query) => $query->latest()->limit(10),
+            'orderItems.order',
+        ]);
+        
         return new ItemResource($item);
     }
 

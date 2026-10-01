@@ -23,6 +23,7 @@ class ItemResource extends JsonResource
             'price' => $this->price,
             'currency' => $this->currency,
             'meta' => $this->meta,
+            'lastOrders' => OrderItemResource::collection($this->whenLoaded('orderItems')),
         ];
     }
 }

@@ -22,3 +22,6 @@ Route::put('/items/{item}',[ItemController::class,'update'])
     ->middleware('auth:sanctum');
 Route::post('/users/{user}/orders', [OrderController::class, 'store'])
     ->middleware('auth:sanctum');
+Route::patch('/orders/{order}', [OrderController::class, 'update'])
+    ->middleware('auth:sanctum');
+Route::get('/items',[ItemController::class,'index']);
