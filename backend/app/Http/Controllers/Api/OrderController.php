@@ -16,14 +16,17 @@ use App\Actions\UpdateOrderStatusAction;
 class OrderController extends Controller
 {
     
-    public function index(User $user)
+    public function index(User $user, Request $request)
     {
         $orders = $user->orders()
             ->with('orderItems.item')
-            ->latest()
-            ->paginate(10);
-
-        return OrderResource::collection($orders);
+            ->latest();
+            
+        if ($request->filled('minTotal'))
+        {
+            $orders->overAmount((float) $request->query('minTotal'));
+        }
+        return OrderResource::collection($orders->paginate(10));
     }
 
     

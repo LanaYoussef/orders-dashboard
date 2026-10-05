@@ -48,8 +48,13 @@ class User extends Authenticatable
 
     }
 
-        public function orders(): hasMany{
+    public function orders(): hasMany{
         return $this->hasMany(Order::class);
+    }
+
+    public function scopeWithOrderCount($query)
+    {
+        return $query->withCount('orders');
     }
 
 }

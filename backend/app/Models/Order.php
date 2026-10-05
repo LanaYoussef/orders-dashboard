@@ -38,5 +38,10 @@ class Order extends Model
     {
         return $query->where('status', OrderStatus::PENDING);
     }
+
+    public function scopeOverAmount($query, float $amount = 100)
+    {
+        return $query->where('total', '>', $amount);
+    }
   
 }

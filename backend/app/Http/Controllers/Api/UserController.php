@@ -18,7 +18,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::query()
-            ->withCount('orders')
+            ->withOrderCount()
             ->paginate(15);
 
         return UserResource::collection($users);
