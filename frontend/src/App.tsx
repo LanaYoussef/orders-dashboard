@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { login } from "./api";
+import { getUsers, login } from "./api";
 import type { User } from "./types";
 
 export default function App() {
@@ -7,11 +7,13 @@ export default function App() {
   const [email, setEmail] = useState("admin@example.com");
   const [password, setPassword] = useState("password");
   const [error, setError] = useState("");
+  const [users, setUsers] = useState<User[]>([]);
 
   async function handleLogin() {
     setError("");
     try {
       setMe(await login(email, password));
+      setUsers(await getUsers());
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     }
@@ -45,6 +47,26 @@ export default function App() {
       <p>
         Hello {me.firstName} {me.lastName}
       </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Orders</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.id}>
+              <td>
+                {user.firstName} {user.lastName}
+              </td>
+              <td>{user.email}</td>
+              <td>{user.orderCount ?? 0}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

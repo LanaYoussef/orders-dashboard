@@ -29,3 +29,9 @@ export async function login(email: string, password: string): Promise<User> {
   }
   return json.data;
 }
+
+export async function getUsers(): Promise<User[]> {
+  const response = await fetch("/api/users", { credentials: "include" });
+  const json = await response.json();
+  return json.data;
+}
