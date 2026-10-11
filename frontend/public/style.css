@@ -1,8 +1,5 @@
 body {
-  margin: 0;
-  background-color: rgb(252, 240, 245);
   text-align: center;
-  color: rgb(90, 55, 75);
 }
 
 header {
@@ -25,17 +22,22 @@ h3 {
 }
 
 .addform {
-  padding: 24px;
-  max-width: 250px;
-  background-color: rgb(245, 210, 225);
-  color: rgb(90, 55, 75);
+  max-width: 360px;
+  text-align: left;
 }
-
+.addform .form-control {
+  display: block;
+  width: 100%;
+  margin: 0;
+}
 .formrow {
   padding: 8px 0;
 }
 
-.form-control,
+.form-control {
+  display: inline-block;
+  width: auto;
+}
 .form-select {
   display: inline-block;
   width: auto;

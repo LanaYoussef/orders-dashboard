@@ -22,32 +22,47 @@ export default function App() {
   if (!me) {
     return (
       <form
+        className="addform mx-auto mt-5"
         onSubmit={(e) => {
           e.preventDefault();
           void handleLogin();
         }}
       >
         <h1>Login</h1>
-        <input value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="formrow">
+          <input
+            className="form-control"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="formrow">
+          <input
+            className="form-control"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
         <button className="btn btn-primary" type="submit">
           Login
         </button>
-        {error && <p>{error}</p>}
+
+        {error && <p className="errormsg">{error}</p>}
       </form>
     );
   }
 
   return (
     <div>
+      <header>
+        <h1>User Management</h1>
+      </header>
       <p>
         Hello {me.firstName} {me.lastName}
       </p>
-      <table>
+      <table className="table">
         <thead>
           <tr>
             <th>Name</th>
