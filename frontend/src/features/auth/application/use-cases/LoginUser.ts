@@ -1,7 +1,7 @@
-import type { AuthReposiroty } from "../../domain/AuthRepository";
+import type { AuthRepository } from "../../domain/AuthRepository";
 
 export function LoginUser(
-  repo: AuthReposiroty,
+  repo: AuthRepository,
   email: string,
   password: string,
 ) {
