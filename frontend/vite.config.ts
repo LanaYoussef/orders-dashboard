@@ -9,5 +9,8 @@ export default defineConfig({
       host: "localhost",
       clientPort: 8080,
     },
+    watch: {
+      usePolling: true
+    }
   },
 });

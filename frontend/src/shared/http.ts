@@ -8,6 +8,9 @@ function readCookie(name: string): string {
 }
 
 export async function csrf(): Promise<void> {
+  if (readCookie("XSRF-TOKEN")) {
+    return;
+  }
   await fetch("/sanctum/csrf-cookie", { credentials: "include" });
 }
 
@@ -22,9 +25,16 @@ export async function http(method: Method, url: string, body?: any) {
     },
     body: JSON.stringify(body),
   });
-  const json = await response.json();
+
   if (response.status === 204) {
     return;
   }
+
+  const json = await response.json();
+
+  if (!response.ok) {
+    throw new Error(json.message ?? "Request failed");
+  }
+
   return json.data;
 }

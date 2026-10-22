@@ -9,7 +9,11 @@ export function useAuth() {
   const [me, setMe] = useState<User | null>(null);
   const [error, setError] = useState("");
 
-  useEffect(() => void http("GET", "/api/me").then(setMe).catch());
+  useEffect(() => {
+    void http("GET", "/api/me")
+      .then(setMe)
+      .catch(() => {});
+  }, []);
 
   async function login(email: string, password: string) {
     setError("");

@@ -3,7 +3,7 @@ import { useAuth } from "../../features/auth/application/useAuth";
 import { useUsers } from "../../features/users/application/useUsers";
 
 export function useSession() {
-  const { me, error, login } = useAuth();
+  const { me, error, login, setMe } = useAuth();
   const { users, load } = useUsers();
 
   useEffect(() => {
@@ -14,8 +14,7 @@ export function useSession() {
 
   async function signIn(email: string, password: string) {
     await login(email, password);
-    await load();
   }
 
-  return { me, error, users, signIn };
+  return { me, error, users, signIn, setMe };
 }

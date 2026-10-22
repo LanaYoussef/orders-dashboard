@@ -6,7 +6,7 @@ type Props = {
 
 export default function UserTable({ users }: Props) {
   return (
-    <table className="table">
+    <table className="table table-striped table-hover mb-0">
       <thead>
         <tr>
           <th>Name</th>
