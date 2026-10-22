@@ -1,4 +1,4 @@
-import { http } from "C:/Users/Lenovo/Documents/Tomorrow services/task1/frontend/src/shared/http.ts";
+import { http } from "../../../shared/http.ts";
 import type { User } from "../domain/User";
 import type { UserRepository } from "../domain/UserRepository";
 import type { UserDto } from "../application/dto/UserDto";

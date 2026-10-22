@@ -26,6 +26,7 @@ export default function LoginForm({ error, onSubmit }: Props) {
       </div>
       <div>
         <input
+          className="form-control"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

@@ -1,9 +1,16 @@
+import { useEffect } from "react";
 import { useAuth } from "../../features/auth/application/useAuth";
 import { useUsers } from "../../features/users/application/useUsers";
 
 export function useSession() {
   const { me, error, login } = useAuth();
   const { users, load } = useUsers();
+
+  useEffect(() => {
+    if (me) {
+      void load();
+    }
+  }, [me]);
 
   async function signIn(email: string, password: string) {
     await login(email, password);
