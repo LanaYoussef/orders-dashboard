@@ -10,7 +10,8 @@ export default defineConfig({
       clientPort: 8080,
     },
     watch: {
-      usePolling: true
-    }
+      usePolling: true,
+      interval: 1000,
+    },
   },
 });

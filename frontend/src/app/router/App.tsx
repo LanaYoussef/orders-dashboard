@@ -1,7 +1,7 @@
-import { useSession } from "../../shared/lib/usesession";
 import UserTable from "../../features/users/presentation/UsersTable";
 import LoginForm from "../../features/auth/presentation/LoginForm";
 import { http } from "../../shared/http";
+import { useSession } from "../../shared/lib/useSession";
 export default function App() {
   const { me, users, signIn, setMe, error } = useSession();
 
