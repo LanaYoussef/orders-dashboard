@@ -1,0 +1,101 @@
+header {
+  background-color: rgb(219, 112, 160);
+  color: rgb(255, 255, 255);
+  padding: 16px;
+}
+
+h3 {
+  color: rgb(199, 80, 140);
+}
+
+.req,
+.errormsg {
+  color: rgb(190, 70, 110);
+}
+
+.errormsg {
+  min-height: 20px;
+}
+
+.addform {
+  max-width: 360px;
+  text-align: left;
+}
+.addform .form-control {
+  display: block;
+  width: 100%;
+  margin: 0;
+}
+.formrow {
+  padding: 8px 0;
+}
+
+.form-select {
+  display: inline-block;
+  width: auto;
+  margin: 6px;
+}
+
+.table {
+  width: 90%;
+  margin: 24px auto;
+  background-color: rgb(255, 248, 251);
+  color: rgb(90, 55, 75);
+}
+
+.table th {
+  background-color: rgb(219, 112, 160) !important;
+  color: rgb(255, 255, 255) !important;
+}
+
+.btns {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.dltbtn,
+.btn-danger {
+  background-color: rgb(190, 70, 110);
+  border-color: rgb(190, 70, 110);
+  color: rgb(255, 255, 255);
+}
+
+.editbtn,
+.btn-warning {
+  background-color: rgb(240, 170, 190);
+  border-color: rgb(240, 170, 190);
+  color: rgb(90, 55, 75);
+}
+
+.dltbtn,
+.editbtn {
+  border: none;
+  border-radius: 20px;
+  padding: 4px 12px;
+}
+
+.btn-primary {
+  background-color: rgb(219, 112, 160);
+  border-color: rgb(219, 112, 160);
+}
+
+.btn-primary:hover {
+  background-color: rgb(199, 80, 140);
+  border-color: rgb(199, 80, 140);
+}
+
+.btn-success {
+  background-color: rgb(199, 80, 140);
+  border-color: rgb(199, 80, 140);
+}
+
+.btn-secondary {
+  background-color: rgb(232, 190, 205);
+  border-color: rgb(232, 190, 205);
+  color: rgb(90, 55, 75);
+}
+
+.navbar {
+  background-color: rgb(219, 112, 160);
+}
