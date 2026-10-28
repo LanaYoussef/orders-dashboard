@@ -25,10 +25,10 @@ services:
         condition: service_healthy
 
   frontend:
-    build: ./frontend
+    build: ./frontend1
     volumes:
-      - ./frontend:/app
-      - frontend_node_modules:/app/node_modules
+      - ./frontend1:/app
+      - frontend1_node_modules:/app/node_modules
     ports:
       - "5173:5173"
 
@@ -47,3 +47,4 @@ volumes:
   backend_postgres_data:
   frontend_node_modules:
   backend_vendor:
+  frontend1_node_modules:
