@@ -1,7 +1,14 @@
-# User Management
+# Orders Dashboard
 
-Laravel API (`/backend`) + React (`/frontend`) + Postgres, all via Docker.
-Open http://localhost:8080
+🚧 Work in progress
+
+A shop management dashboard built with Laravel, extending a user management
+system (started during my internship at Tomorrow Services) to handle orders.
+
+## Features
+
+- User management
+- Orders dashboard (in progress)
 
 ## Requirements
 
